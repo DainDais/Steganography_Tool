@@ -3,79 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Steganography Tool</title>
+    <title>STEGANOS</title>
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
-    <main>
-      <h1>Steganography Tool</h1>
-      <p class="sub">
-        Hide encrypted data in images and text, then try to detect it.
-      </p>
+    <div class="crt">
+      <div class="frame">
+        <header class="head">
+          <div>
+            <h1>STEGANOS</h1>
+            <p class="tagline">multi-carrier steganography</p>
+          </div>
+          <div class="clock" id="clock"></div>
+        </header>
 
-      <nav class="tabs">
-        <button data-tab="image" class="active">Image</button>
-        <button data-tab="text">Text</button>
-        <button data-tab="detect">Detect</button>
-      </nav>
+        <div class="rule"></div>
+        <div class="rule-accent"></div>
 
-      <section id="panel-image" class="panel">
-        <label>Carrier image (PNG or BMP)
-          <input type="file" id="img-file" accept="image/png,image/bmp" />
-        </label>
-        <p id="img-capacity" class="hint"></p>
+        <nav class="breadcrumb" id="breadcrumb"></nav>
 
-        <label>Secret message
-          <textarea id="img-secret" rows="3"></textarea>
-        </label>
+        <main class="body" id="body"></main>
 
-        <label>Password (optional)
-          <input type="password" id="img-password" />
-        </label>
+        <footer class="keys" id="keys"></footer>
+      </div>
+    </div>
 
-        <div class="row">
-          <button id="img-encode">Encode &amp; download</button>
-          <button id="img-decode">Decode this image</button>
-        </div>
-
-        <pre id="img-output" class="output"></pre>
-        <canvas id="canvas" hidden></canvas>
-      </section>
-
-      <section id="panel-text" class="panel" hidden>
-        <label>Cover text
-          <textarea id="txt-cover" rows="5">The quick brown fox jumps over the lazy dog.</textarea>
-        </label>
-        <p id="txt-capacity" class="hint"></p>
-
-        <label>Secret message
-          <textarea id="txt-secret" rows="2"></textarea>
-        </label>
-
-        <label>Password (optional)
-          <input type="password" id="txt-password" />
-        </label>
-
-        <div class="row">
-          <button id="txt-encode">Encode</button>
-          <button id="txt-decode">Decode</button>
-        </div>
-
-        <label>Result
-          <textarea id="txt-result" rows="5"></textarea>
-        </label>
-
-        <pre id="txt-output" class="output"></pre>
-      </section>
-
-      <section id="panel-detect" class="panel" hidden>
-        <label>Image to analyse
-          <input type="file" id="det-file" accept="image/*" />
-        </label>
-        <pre id="det-output" class="output"></pre>
-      </section>
-    </main>
-
+    <input type="file" id="file-input" accept="image/png,image/bmp" hidden />
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

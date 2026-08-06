@@ -14,7 +14,7 @@ type Bytes = Uint8Array<ArrayBuffer>;
 export interface RasterImage {
   width: number;
   height: number;
-  data: Uint8ClampedArray;
+  data: Uint8ClampedArray<ArrayBuffer>;
 }
 
 const CHANNELS_PER_PIXEL = 4;
