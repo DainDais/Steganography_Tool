@@ -1,27 +1,23 @@
-// Payload bits are scattered across carrier positions in an order derived
-// from the password. Without a password the order is sequential; with one,
-// the same password always reproduces the same permutation so the decoder
-// can walk the positions back in step with the encoder.
+// Turns a password into a deterministic, scattered ordering of
+// carrier positions. Same password always yields the same order.
 
-// Derive a 32-bit seed from the password (FNV-1a hash).
-function seedFromPassword(password: string): number {
-  let hash = 0x811c9dc5;
-  for (let i = 0; i < password.length; i++) {
-    hash ^= password.charCodeAt(i);
-    hash = Math.imul(hash, 0x01000193);
+function hashString(input: string): number {
+  let hash = 2166136261;
+  for (let i = 0; i < input.length; i++) {
+    hash ^= input.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
   }
   return hash >>> 0;
 }
 
-// Deterministic PRNG (mulberry32): same seed yields the same sequence.
-function mulberry32(seed: number): () => number {
-  let state = seed >>> 0;
+function createRandom(seed: number): () => number {
+  let state = seed || 1;
   return () => {
-    state = (state + 0x6d2b79f5) | 0;
-    let t = state;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    state ^= state << 13;
+    state ^= state >>> 17;
+    state ^= state << 5;
+    state >>>= 0;
+    return state / 4294967296;
   };
 }
 
@@ -32,9 +28,9 @@ export function selectPositions(count: number, password?: string): number[] {
     return positions;
   }
 
-  // Fisher-Yates shuffle driven by the password-seeded PRNG.
-  const random = mulberry32(seedFromPassword(password));
-  for (let i = count - 1; i > 0; i--) {
+  const random = createRandom(hashString(password));
+
+  for (let i = positions.length - 1; i > 0; i--) {
     const j = Math.floor(random() * (i + 1));
     [positions[i], positions[j]] = [positions[j], positions[i]];
   }
