@@ -78,8 +78,7 @@ library.
 ## ▌ Background and how this was built
 
 I came in with **Python** and **GameMaker** experience, plus some **Java**.
-What I didn't have was the JavaScript ecosystem, TypeScript, browser
-APIs, or any experience shipping something to a URL other people can open.
+What I didn't have was the TypeScript, browser APIs, or any experience shipping something to a URL other people can open.
 
 Built in collaboration with Claude, and I'd rather be straightforward about
 that than imply otherwise.
