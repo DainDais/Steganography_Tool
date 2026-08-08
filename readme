@@ -1,0 +1,38 @@
+## Notes from building it
+
+First project in TypeScript, coming from Python and GameMaker. Most of
+the interesting problems were in the detection side rather than the
+hiding side.
+
+**The detector saturated before it was useful.** The first scoring
+function scaled linearly and clamped at 1.0, so clean and embedded
+images both maxed out and looked identical. The detector was working
+fine — the scale just had no room left to show a difference. Rewrote it
+to measure how close an image sits to the 50/50 pattern that embedding
+produces, rather than scaling the raw ratio upward.
+
+**The threshold was guesswork.** I'd set the suspicious/not-suspicious
+cutoff at 0.6 by feel. Working through the math afterwards showed that
+fully-embedded data lands at about 0.607 — close enough to the cutoff
+that the result was near-random. It's now documented as provisional,
+because picking a real threshold means testing against a set of actual
+photographs, not synthetic test images.
+
+**One failing test was the test's fault, not the code's.** A capacity
+check expected -9 and got 0. Tracing it through, 0 was right: text
+under 79 characters can't hold even the header, so its usable capacity
+is genuinely zero. Easy to reflexively "fix" working code until a test
+goes green, which just gets you a broken function and a checkmark.
+
+**TypeScript caught something I wouldn't have thought to check.** The
+type system distinguishes between regular and shared memory buffers,
+and the Web Crypto API refuses shared ones — a second thread could
+alter your data mid-encryption. That's a real bug class, flagged at
+compile time rather than discovered later.
+
+**Testing and deployment.** 38 tests covering round trips, failure
+cases (wrong password, tampered data, oversized payloads), and the
+properties that make it steganography at all: pixels change by at most
+1, transparency is never touched, and the visible text is byte-for-byte
+unchanged after embedding. GitHub Actions runs the suite on every push
+and blocks the deploy if anything fails.

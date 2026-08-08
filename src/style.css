@@ -80,7 +80,7 @@ h1 { margin: 0; font-size: 2rem; letter-spacing: 0.45em; font-weight: 700; }
 }
 
 .menu { list-style: none; margin: 0 0 1.25rem; padding: 0; }
-.menu li { padding: 0 0 0 0.75rem; border-left: 3px solid transparent; }
+.menu li { padding: 0 0 0 0.75rem; border-left: 3px solid transparent; cursor: pointer; }
 .menu li.sel {
   border-left-color: var(--mark);
   font-weight: 700;
@@ -143,3 +143,70 @@ a.dl { color: var(--amber); }
 }
 
 .keys b { color: var(--amber); font-weight: 700; }
+
+/* Clickable ambiance button in the footer (also bound to the "a" key). */
+.keys .toggle {
+  cursor: pointer;
+  color: var(--amber-dim);
+  border-bottom: 1px dotted var(--amber-faint);
+  padding-bottom: 1px;
+}
+.keys .toggle:hover { color: var(--amber); border-bottom-color: var(--amber-dim); }
+
+/* Cold-boot overlay. Sits above the app but below the global scanline so the
+   crawl keeps the phosphor look. Lines anchor to the bottom and scroll up. */
+.boot {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  background: var(--bg);
+  color: var(--amber);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  font: 13px/1.5 var(--mono);
+}
+
+.boot-scroll { display: flex; flex-direction: column; }
+.boot-line { white-space: pre-wrap; word-break: break-word; }
+.boot-line.dim { color: var(--amber-dim); }
+.boot-line.warn { color: var(--mark); }
+
+.boot-cursor { margin-top: 0.15rem; animation: boot-blink 1s step-end infinite; }
+
+@keyframes boot-blink { 50% { opacity: 0; } }
+
+/* Assistant helper — its own box (box 2) below the app window. Clippy sits
+   permanently on the left; his dialogue lives in the bubble beside him and
+   grows to fit. Kept out of the app frame so switching menus never reflows or
+   jitters the interface, and the mascot is never re-created. */
+.assistant {
+  margin-top: 1rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  border: 1px solid var(--amber-dim);
+  border-radius: 6px;
+  background: var(--panel);
+  padding: 1rem 1.25rem;
+}
+
+.assistant-mascot {
+  flex: 0 0 auto;
+  width: 56px;
+  height: auto;
+}
+
+.assistant-bubble { flex: 1 1 auto; min-width: 0; }
+
+.assistant-body { color: var(--amber-dim); font-size: 0.85rem; line-height: 1.55; }
+.assistant-body p { margin: 0 0 0.6rem; }
+.assistant-body p:last-child { margin-bottom: 0; }
+
+.assistant-extra {
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px dotted var(--amber-faint);
+}
