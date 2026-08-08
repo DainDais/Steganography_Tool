@@ -78,7 +78,7 @@ library.
 ## ▌ Background and how this was built
 
 I came in with **Python** and **GameMaker** experience, plus some **Java**.
-What I didn't have was the modern JavaScript ecosystem, TypeScript, browser
+What I didn't have was the JavaScript ecosystem, TypeScript, browser
 APIs, or any experience shipping something to a URL other people can open.
 
 Built in collaboration with Claude, and I'd rather be straightforward about
@@ -101,10 +101,10 @@ hand in a file and someone else runs it.
 
 ---
 
-## ▌ Things that broke
+## ▌ Things that broke and Mistakes along the way
 
 <details>
-<summary><b>I typed Git commands into a dev server for ten minutes</b></summary>
+<summary><b>Trying to write Git commands into a dev server</b></summary>
 
 `npm run dev` occupies the terminal until you stop it; everything after went
 to Vite, which ignored it silently. The lesson was reading a terminal's
