@@ -178,6 +178,29 @@ a.dl { color: var(--amber); }
 
 @keyframes boot-blink { 50% { opacity: 0; } }
 
+/* Centered "press or click to start" gate shown before the boot crawl. Its
+   click/keypress is the user gesture that unlocks audio for the session. */
+.boot-gate {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+}
+.boot-gate-title {
+  font-size: 2.5rem;
+  letter-spacing: 0.4em;
+  font-weight: 700;
+  color: var(--amber);
+  margin: 0 0 1rem 0.4em; /* nudge for the trailing letter-spacing */
+}
+.boot-gate-prompt {
+  color: var(--amber-dim);
+  animation: boot-blink 1.2s step-end infinite;
+}
+
 /* Assistant helper — its own box (box 2) below the app window. Clippy sits
    permanently on the left; his dialogue lives in the bubble beside him and
    grows to fit. Kept out of the app frame so switching menus never reflows or

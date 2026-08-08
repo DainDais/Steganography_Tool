@@ -109,6 +109,13 @@ export function isSoundEnabled() {
   return enabled;
 }
 
+// Create/resume the shared AudioContext from within a user gesture so every
+// later synthesized sound (the boot clunk, the ambient bed, the UI beeps) is
+// audible. Browsers keep audio suspended until the first interaction.
+export function unlockAudio(): void {
+  context();
+}
+
 // A heavy mechanical impact — a pitch-dropping low body plus a short contact
 // transient — for the moment the program drops into place after boot.
 export function clunk() {

@@ -2,11 +2,12 @@
 // code with a little sci-fi flavour streams over startup.mp3; the music then
 // fades and the main program lands with a clunk.
 //
-// The whole thing runs automatically. Audio autoplay may be blocked until the
-// user has interacted with the page; if so the crawl still runs (silently)
-// rather than waiting for a key press.
+// A centered "press or click to start" prompt collects the first user gesture
+// before anything runs. Browsers keep audio suspended until then, so this
+// guarantees the music, clunk, ambient bed and UI beeps are all audible from
+// the very beginning — including on a freshly loaded or deployed page.
 
-import { clunk } from "./sound";
+import { clunk, unlockAudio } from "./sound";
 
 type LineClass = "dim" | "ok" | "warn";
 interface BootLine {
@@ -169,9 +170,29 @@ export function runBoot(onDone: () => void): void {
     }, PRE_ROLL_MS);
   };
 
-  // Best-effort: start the music. Browsers may block autoplay until the user
-  // has interacted with the page; if so the crawl still runs (silently) rather
-  // than waiting for a key press.
-  void audioEl.play().catch(() => {});
-  begin();
+  // Start gate. Nothing plays until the user interacts, so a fresh/deployed
+  // page would block the boot audio. A centered prompt collects that first
+  // gesture, which unlocks audio for the whole session, then the boot runs.
+  cursor.style.visibility = "hidden";
+
+  const gate = document.createElement("div");
+  gate.className = "boot-gate";
+  gate.innerHTML =
+    `<div class="boot-gate-inner">` +
+    `<div class="boot-gate-title">SteganOS</div>` +
+    `<div class="boot-gate-prompt">▶ press or click to start</div>` +
+    `</div>`;
+  root.appendChild(gate);
+
+  const start = () => {
+    window.removeEventListener("keydown", start);
+    window.removeEventListener("pointerdown", start);
+    gate.remove();
+    cursor.style.visibility = "";
+    unlockAudio(); // resume the synth AudioContext within this gesture
+    void audioEl.play().catch(() => {}); // start the music
+    begin();
+  };
+  window.addEventListener("keydown", start);
+  window.addEventListener("pointerdown", start);
 }
