@@ -12,6 +12,8 @@
 
 *Hide encrypted messages inside images and ordinary text —<br>then try to catch yourself doing it.*
 
+[Try demo here!](https://daindais.github.io/Steganography_Tool/)
+
 [![Live Demo](https://img.shields.io/badge/demo-live-ffb000?style=flat-square)](https://daindais.github.io/Steganography_Tool/)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?style=flat-square&logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-646cff?style=flat-square&logo=vite&logoColor=white)
